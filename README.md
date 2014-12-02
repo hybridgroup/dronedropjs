@@ -2,9 +2,9 @@
 
 JS client lib for DroneDrop (http://dronedrop.io)
 
-## Example:
+## Nodecopter Example:
 
-```
+```javascript
 var arDrone = require('ar-drone');
 var client  = arDrone.createClient();
 
@@ -27,6 +27,15 @@ client
   });
 ```
 
+## Standalone Example:
+
+```javascript
+var dronedrop = require('dronedrop');
+var dropper = dronedrop.connect("192.168.1.1");
+
+dropper.drop();
+```
+
 ## Functions
 
 ```
@@ -44,4 +53,7 @@ load();
 close();
 ```
 
+## License
+
+Copyright (c) 2014 The Hybrid Group. Licensed under the Apache 2.0 license.
 
