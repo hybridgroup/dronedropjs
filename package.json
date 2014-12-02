@@ -1,0 +1,15 @@
+{
+  "name": "dronedrop-js",
+  "version": "0.0.1",
+  "description": "JS client lib for DroneDrop",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "drone",
+    "drondrop"
+  ],
+  "author": "The Hybrid Group",
+  "license": "Apache 2.0"
+}
