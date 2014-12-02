@@ -19,17 +19,17 @@ DroneDrop.prototype.connect = function(host) {
 
 DroneDrop.prototype.drop = function() {
 	console.log('drop');
-	request(this.host + '/api/commands/drop');
+	request.get(this.host + '/api/commands/drop');
 };
 
 DroneDrop.prototype.load = function() {
 	console.log('load');
-	request(this.host + '/api/commands/load');
+	request.get(this.host + '/api/commands/load');
 };
 
 DroneDrop.prototype.close = function() {
 	console.log('close');
-	request(this.host + '/api/commands/close');
+	request.get(this.host + '/api/commands/close');
 };
 
 module.exports = new DroneDrop();
