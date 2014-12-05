@@ -1,39 +1,50 @@
 var request = require('request');
 
-var DroneDrop = function() {
-  this.host = '192.168.1.1';
-  this.port = '8080'
+var DroneDrop = function(opts) {
+  var host = '192.168.1.1' || opts.host;
+  var port = '8080' || opts.port;
+  this.dronedrop = { 'host': host, 'port': port };
 };
 
-DroneDrop.prototype.createClient = function(client) {
-	var that = this;
-	this.host = client._options.ip || '192.168.1.1';
+DroneDrop.prototype.dropify = function(client) {
+	this.dronedrop.host = client._options.ip || '192.168.1.1';
 
-	client['drop'] = that.drop;
-	client['load'] = that.load;
-	client['close'] = that.close;
+	client['drop'] = this.drop;
+	client['load'] = this.load;
+	client['close'] = this.close;
+	client['version'] = this.version;
+	client['_sendCommand'] = this._sendCommand;
+  client['dronedrop'] = this.dronedrop;
 };
 
-DroneDrop.prototype.connect = function(host, port) {
-	this.host = host || '192.168.1.1';
-	this.port = port || '8080';
+DroneDrop.prototype.drop = function(cb) {
+	this._sendCommand('drop', cb);
 };
 
-DroneDrop.prototype.drop = function() {
-	this._sendCommand('drop');
+DroneDrop.prototype.load = function(cb) {
+	this._sendCommand('load', cb);
 };
 
-DroneDrop.prototype.load = function() {
-	this._sendCommand('load');
+DroneDrop.prototype.close = function(cb) {
+	this._sendCommand('close', cb);
 };
 
-DroneDrop.prototype.close = function() {
-	this._sendCommand('close');
+DroneDrop.prototype.version = function(cb) {
+	this._sendCommand('version', cb);
 };
 
-DroneDrop.prototype._sendCommand = function(command) {
-	console.log(command);
-	request.get(this.host + ':' + this.port + '/api/commands/' + command);
+DroneDrop.prototype._sendCommand = function(command, cb) {
+  request('http://' + this.dronedrop.host + ':' + this.dronedrop.port + '/api/commands/' + command, 
+    function (error, response, body) {
+      if ('function' === typeof(cb)) { 
+        if (!error && response.statusCode == 200) {
+          cb(null, JSON.parse(body).result);
+        } else {
+          cb(error)
+        }
+      }
+    }
+  )
 };
 
 module.exports = new DroneDrop();
