@@ -1,40 +1,39 @@
 var request = require('request');
 
-var DroneDrop = function(opts) {
-  var host = '192.168.1.1' || opts.host;
-  var port = '8080' || opts.port;
-  this.dronedrop = { 'host': host, 'port': port };
+var DroneDrop = function() {
+  this.host = '192.168.1.1';
+  this.port = '8080';
 };
 
-DroneDrop.prototype.dropify = function(client) {
-	this.dronedrop.host = client._options.ip || '192.168.1.1';
-
-	client['drop'] = this.drop;
-	client['load'] = this.load;
-	client['close'] = this.close;
-	client['version'] = this.version;
-	client['_sendCommand'] = this._sendCommand;
-  client['dronedrop'] = this.dronedrop;
+DroneDrop.prototype.init = function(cb) {
+  var that = this;
+  that._sendCommand('disconnect', function(err, data) {
+    if (err == null && data == null) {
+      that.init(cb);
+    } else {
+      cb(err, data);
+    }
+  });
 };
 
 DroneDrop.prototype.drop = function(cb) {
-	this._sendCommand('drop', cb);
+  this._sendCommand('drop', cb);
 };
 
 DroneDrop.prototype.load = function(cb) {
-	this._sendCommand('load', cb);
+  this._sendCommand('load', cb);
 };
 
-DroneDrop.prototype.close = function(cb) {
-	this._sendCommand('close', cb);
+DroneDrop.prototype.grab = function(cb) {
+  this._sendCommand('grab', cb);
 };
 
 DroneDrop.prototype.version = function(cb) {
-	this._sendCommand('version', cb);
+  this._sendCommand('version', cb);
 };
 
 DroneDrop.prototype._sendCommand = function(command, cb) {
-  request('http://' + this.dronedrop.host + ':' + this.dronedrop.port + '/api/commands/' + command, 
+  request('http://' + this.host + ':' + this.port + '/api/commands/' + command, 
     function (error, response, body) {
       if ('function' === typeof(cb)) { 
         if (!error && response.statusCode == 200) {

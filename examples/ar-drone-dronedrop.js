@@ -1,21 +1,22 @@
+var dropper = require('dronedrop');
 var arDrone = require('ar-drone');
-var client  = arDrone.createClient();
 
-require('dronedrop').dropify(client);
+dropper.init(function() {
+  var client  = arDrone.createClient();
+  client.takeoff();
 
-client.takeoff();
-
-client
-  .after(5000, function() {
-    this.version(function(err, data) {
-      console.log("dronedrop firmware version:", data);
+  client
+    .after(1000, function() {
+      dropper.version(function(err, data) {
+        console.log("dronedrop firmware version:", data);
+      });
+      dropper.grab();
+    })
+    .after(1000, function() {
+      dropper.drop();
+    })
+    .after(1000, function() {
+      this.stop();
+      this.land();
     });
-    this.close();
-  })
-  .after(5000, function() {
-    this.drop();
-  })
-  .after(5000, function() {
-    this.stop();
-    this.land();
-  });
+});

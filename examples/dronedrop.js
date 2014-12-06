@@ -1,6 +1,6 @@
 var dronedrop = require("dronedrop");
 
-dronedrop.close();
+dronedrop.grab();
 
 setTimeout(function() {
   dronedrop.drop();
