@@ -14,9 +14,6 @@ dropper.init(function() {
 
   client
     .after(1000, function() {
-      dropper.version(function(err, data) {
-        console.log("dronedrop firmware version:", data);
-      });
       dropper.grab();
     })
     .after(1000, function() {
