@@ -5,52 +5,66 @@ JS client lib for DroneDrop (http://dronedrop.io)
 ## Nodecopter Example:
 
 ```javascript
+var dropper = require('dronedrop');
 var arDrone = require('ar-drone');
-var client  = arDrone.createClient();
 
-var dronedrop = require('dronedrop');
-dronedrop.createClient(client);
+dropper.init(function() {
+  var client  = arDrone.createClient();
+  client.takeoff();
 
-client.takeoff();
-
-client
-  .after(5000, function() {
-    this.front(0.1);
-  })
-  .after(3000, function() {
-    this.drop();
-    this.back(0.1);
-  })
-  .after(3000, function() {
-    this.stop();
-    this.land();
-  });
+  client
+    .after(1000, function() {
+      dropper.version(function(err, data) {
+        console.log("dronedrop firmware version:", data);
+      });
+      dropper.grab();
+    })
+    .after(1000, function() {
+      dropper.drop();
+    })
+    .after(1000, function() {
+      this.stop();
+      this.land();
+    });
+});
 ```
 
 ## Standalone Example:
 
 ```javascript
-var dronedrop = require('dronedrop');
-var dropper = dronedrop.connect("192.168.1.1");
+var dronedrop = require("dronedrop");
 
-dropper.drop();
+dronedrop.grab();
+
+setTimeout(function() {
+  dronedrop.drop();
+}, 500);
 ```
 
 ## Functions
 
 ```
 // Opens DroneDrop all the way. DROP!
+
 drop();
 ```
 
 ```
 // Moves DroneDrop to "almost closed". Good for loading your payload
+
 load();
 ```
 
 ```
-// Closes DroneDrop as far as it goes. Now you're ready for takeoff!
-close();
+// Grab something by closing DroneDrop as far as it goes. Now you're ready for takeoff!
+
+grab();
+```
+
+```
+// Return the version of DroneDrop running on the drone
+
+version();
 ```
 
 ## License
