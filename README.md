@@ -29,12 +29,12 @@ dropper.init(function() {
 ## Standalone Example:
 
 ```javascript
-var dronedrop = require("dronedrop");
+var dropper = require("dronedrop");
 
-dronedrop.grab();
+dropper.grab();
 
 setTimeout(function() {
-  dronedrop.drop();
+  dropper.drop();
 }, 500);
 ```
 
