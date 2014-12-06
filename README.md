@@ -48,7 +48,7 @@ setTimeout(function() {
 Opens DroneDrop all the way. DROP!
 
 ```
-drop();
+dronedrop.drop();
 ```
 
 ### load
@@ -56,7 +56,7 @@ drop();
 Moves DroneDrop to "almost closed". Good for loading your payload before takeoff.
 
 ```
-load();
+dronedrop.load();
 ```
 
 ### grab
@@ -64,7 +64,7 @@ load();
 Grab something by closing DroneDrop as far as it goes. Now you're ready for takeoff!
 
 ```
-grab();
+dronedrop.grab();
 ```
 
 ### version
@@ -72,7 +72,7 @@ grab();
 Return the version of DroneDrop running on the drone.
 
 ```
-version();
+dronedrop.version();
 ```
 
 ## License
