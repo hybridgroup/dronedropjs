@@ -1,7 +1,7 @@
 var dropper = require('dronedrop');
 var arDrone = require('ar-drone');
 
-dropper.init(function() {
+dropper.commander(false, function() {
   var client  = arDrone.createClient();
   client.takeoff();
 

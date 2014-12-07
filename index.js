@@ -5,39 +5,42 @@ var DroneDrop = function() {
   this.port = '8080';
 };
 
-DroneDrop.prototype.init = function(cb) {
-  var that = this;
-  that._sendCommand('disconnect', function(err, data) {
-    if (err == null && data == null) {
-      that.init(cb);
-    } else {
-      cb(err, data);
-    }
-  });
-};
-
 DroneDrop.prototype.drop = function(cb) {
-  this._sendCommand('drop', cb);
+  this._sendCommand('drop', "", cb);
 };
 
 DroneDrop.prototype.load = function(cb) {
-  this._sendCommand('load', cb);
+  this._sendCommand('load', "", cb);
 };
 
 DroneDrop.prototype.grab = function(cb) {
-  this._sendCommand('grab', cb);
+  this._sendCommand('grab', "", cb);
 };
 
 DroneDrop.prototype.version = function(cb) {
-  this._sendCommand('version', cb);
+  this._sendCommand('version', "", cb);
 };
 
-DroneDrop.prototype._sendCommand = function(command, cb) {
-  request('http://' + this.host + ':' + this.port + '/api/commands/' + command, 
-    function (error, response, body) {
+DroneDrop.prototype.commander = function(enabled, cb) {
+  this._sendCommand('commander', {enable: enabled}, cb);
+};
+
+DroneDrop.prototype.config = function(config, cb) {
+  this._sendCommand('config', config, cb);
+};
+
+DroneDrop.prototype._sendCommand = function(command, payload, cb) {
+  request(
+    {
+      method: 'POST',
+      url: 'http://' + this.host + ':' + this.port + '/api/commands/' + command,
+      headers: {'content-type': 'application/json'},
+      json: true,
+      body: payload
+    }, function (error, response, body) {
       if ('function' === typeof(cb)) { 
         if (!error && response.statusCode == 200) {
-          cb(null, JSON.parse(body).result);
+          cb(null, body.result);
         } else {
           cb(error)
         }
