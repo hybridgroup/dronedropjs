@@ -44,7 +44,7 @@ setTimeout(function() {
 
 Opens DroneDrop all the way. DROP!
 
-```
+```javascript
 var callback = function(err) {
 };
 
@@ -55,7 +55,7 @@ dronedrop.drop(callback);
 
 Moves DroneDrop to "almost closed". Good for loading your payload before takeoff.
 
-```
+```javascript
 var callback = function(err) {
 };
 
@@ -66,7 +66,7 @@ dronedrop.load(callback);
 
 Grab something by closing DroneDrop as far as it goes. Now you're ready for takeoff!
 
-```
+```javascript
 var callback = function(err) {
 };
 
@@ -77,7 +77,7 @@ dronedrop.grab(callback);
 
 Return the version of DroneDrop running on the drone.
 
-```
+```javascript
 var callback = function(err, ver) {
 };
 
